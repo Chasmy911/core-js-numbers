@@ -124,8 +124,7 @@ function getAngleBetweenVectors(x1, y1, x2, y2) {
  *     0     => 0
  */
 function getLastDigit(value) {
-  const str = value.toString();
-  return str[str.length - 1];
+  return value % 10;
 }
 
 /**
@@ -211,10 +210,11 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
-  if (n === 2) {
-    return true;
+  for (let i = 2; i <= Math.sqrt(n); i += 1) {
+    if (n % i === 0) return false;
   }
-  return n % 2 || n % 3 || n % 5 || n % 7;
+
+  return n > 1;
 }
 
 /**
@@ -233,7 +233,7 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-  return typeof +value === 'number' ? +value : def;
+  return Number(value) ? +value : def;
 }
 
 /**
@@ -282,13 +282,12 @@ function getFibonacciNumber(index) {
  *   1  => 1
  */
 function getSumToN(n) {
-  let result = 0;
-  let i = 0;
-  while (n !== i) {
-    result += i;
-    i += 1;
+  let sum = 0;
+  for (let i = 1; i <= n; i += 1) {
+    sum += i;
   }
-  return result;
+
+  return sum;
 }
 
 /**
@@ -322,7 +321,12 @@ function getSumOfDigits(num) {
  *   15  => false
  */
 function isPowerOfTwo(num) {
-  return num % 2 === 0;
+  if (num === 1) return true;
+  let number = num;
+  while (number >= 4) {
+    number /= 2;
+  }
+  return number === 2;
 }
 
 /**
@@ -351,7 +355,7 @@ function getSine(num) {
  * 2, 2    => '10'
  */
 function numberToStringInBase(number, base) {
-  return Number.parseFloat(number).toExponential(base);
+  return number.toString(base);
 }
 
 /**
@@ -410,7 +414,7 @@ function toPrecision(number, precision) {
  * Number(-5)    => -5
  */
 function getNumberValue(number) {
-  return number;
+  return number.valueOf();
 }
 
 /**
@@ -429,7 +433,8 @@ function getNumberValue(number) {
  * '5'      => false
  */
 function isNumber(number) {
-  return Number.isNumeric(number);
+  if (Number.isNaN(number) || !Number.isFinite(number)) return false;
+  return true;
 }
 
 /**
@@ -458,7 +463,7 @@ function isInteger(number) {
  * 'abcdefgh'      => NaN
  */
 function getFloatOnString(str) {
-  return parseFloat(str);
+  return Number.parseFloat(str);
 }
 
 /**
@@ -476,7 +481,7 @@ function getFloatOnString(str) {
  * '10', 8              => 8
  */
 function getIntegerOnString(str, base) {
-  return parseInt(str, base);
+  return Number.parseInt(str, base);
 }
 
 /**
@@ -581,10 +586,7 @@ function getSumOfNumbers(x1, x2, x3) {
  * 0, 5   => 5
  */
 function getMaxNumber(firstNumber, secondNumber) {
-  if (firstNumber > secondNumber) {
-    return firstNumber;
-  }
-  return secondNumber;
+  return Math.max(firstNumber, secondNumber);
 }
 
 /**
